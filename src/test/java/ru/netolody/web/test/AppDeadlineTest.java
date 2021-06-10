@@ -2,54 +2,40 @@ package ru.netolody.web.test;
 
 import lombok.SneakyThrows;
 import lombok.val;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netolody.web.data.UserDto;
+import ru.netolody.web.pages.Authorization;
 import ru.netolody.web.sql.SqlHelper;
-import ru.netolody.web.sql.SqlHelper2;
 
 import java.sql.DriverManager;
 
+import static com.codeborne.selenide.Selenide.open;
+
 public class AppDeadlineTest {
+
     @BeforeEach
-    @SneakyThrows
     void setUp() {
-        UserDto user1 = new UserDto().getUserFirstPassword();
-        SqlHelper2.createUser(user1);
+        open("http://localhost:9999");
+    }
+
+    @AfterAll
+    @SneakyThrows
+    static void clean(){
+        SqlHelper.cleanDefaultData();
     }
 
     @Test
     @SneakyThrows
-    void stubTest() {
-        val countSQL = "SELECT COUNT(*) FROM users;";
-        val cardsSQL = "SELECT id, number, balance_in_kopecks FROM cards WHERE user_id = ?;";
+    void shouldBeValidAuthorization() {
+        UserDto user = new UserDto().getUserFirstPassword();
+        SqlHelper.createUser(user);
+        System.out.println(user.getId());
 
-        try (
-                val conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/app", "app", "pass"
-                );
-                val countStmt = conn.createStatement();
-                val cardsStmt = conn.prepareStatement(cardsSQL);
-        ) {
-            try (val rs = countStmt.executeQuery(countSQL)) {
-                if (rs.next()) {
-                    // выборка значения по индексу столбца (нумерация с 1)
-                    val count = rs.getInt(1);
-                    // TODO: использовать
-                    System.out.println(count);
-                }
-            }
+        System.out.println(SqlHelper.getVerificationCode(user.getId()));
 
-            cardsStmt.setInt(1, 1);
-            try (val rs = cardsStmt.executeQuery()) {
-                while (rs.next()) {
-                    val id = rs.getInt("id");
-                    val number = rs.getString("number");
-                    val balanceInKopecks = rs.getInt("balance_in_kopecks");
-                    // TODO: сложить всё в список
-                    System.out.println(id + " " + number + " " + balanceInKopecks);
-                }
-            }
-        }
+//        val page = new Authorization().sigIn(user.getLogin(), user.getPassword()).inputCode(user.getId());
     }
 }

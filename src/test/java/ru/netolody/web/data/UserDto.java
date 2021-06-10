@@ -13,16 +13,18 @@ import java.util.Locale;
 public class UserDto {
 
 
-    String id;
-    String login;
-    String password;
+    private String id;
+    private String login;
+    private String password;
+    private String encryptedPassword;
 
 
     public UserDto getUserFirstPassword() {
         Faker user = new Faker(new Locale("en"));
         String id = user.idNumber().valid();
         String name = user.name().firstName();
-        String password = "$2a$10$bdjJukJt6RkUWbKzedh0MOg/bl8aRjxUcHFiiUD5kBqfoF3xcDn7q";
-        return new UserDto(id, name, password);
+        String password = "qwerty123";
+        String encryptedPassword = "$2a$10$bdjJukJt6RkUWbKzedh0MOg/bl8aRjxUcHFiiUD5kBqfoF3xcDn7q";
+        return new UserDto(id, name, password, encryptedPassword);
     }
 }
