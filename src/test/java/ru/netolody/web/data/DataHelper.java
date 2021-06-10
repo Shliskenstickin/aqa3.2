@@ -1,9 +1,6 @@
 package ru.netolody.web.data;
 
 import com.github.javafaker.Faker;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.util.Locale;
@@ -11,7 +8,7 @@ import java.util.Locale;
 public class DataHelper {
 
     @Value
-    public static class  UserDto {
+    public static class UserDto {
         String id;
         String login;
         String password;
