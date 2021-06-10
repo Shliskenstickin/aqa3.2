@@ -4,7 +4,9 @@ import lombok.SneakyThrows;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.netolody.web.data.UserDto;
 import ru.netolody.web.sql.SqlHelper;
+import ru.netolody.web.sql.SqlHelper2;
 
 import java.sql.DriverManager;
 
@@ -12,8 +14,8 @@ public class AppDeadlineTest {
     @BeforeEach
     @SneakyThrows
     void setUp() {
-        SqlHelper dbUser = new SqlHelper();
-        dbUser.createUser();
+        UserDto user1 = new UserDto().getUserFirstPassword();
+        SqlHelper2.createUser(user1);
     }
 
     @Test
