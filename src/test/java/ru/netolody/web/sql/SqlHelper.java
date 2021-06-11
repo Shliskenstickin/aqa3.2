@@ -47,14 +47,14 @@ public class SqlHelper {
         val selectCode = "SELECT code FROM auth_codes WHERE user_id = '" + id + "';";
         try (
                 val conn = connect();
-                val dataStmt = conn.createStatement();
+                val dataStmt = conn.createStatement()
         ) {
             try (val rs = dataStmt.executeQuery(selectCode)) {
                 if (rs.next()) {
-                    return rs.getString("code");
+                    return rs.getString(1);
                 }
             }
         }
-        return null;
+        return "FUCK!";
     }
 }
