@@ -34,6 +34,8 @@ public class AppDeadlineTest {
         SqlHelper.createUser(user);
         System.out.println(user.getId());
 
+        val page = new Authorization().sigIn(user.getLogin(), user.getPassword());
+
         System.out.println(SqlHelper.getVerificationCode(user.getId()));
 
 //        val page = new Authorization().sigIn(user.getLogin(), user.getPassword()).inputCode(user.getId());

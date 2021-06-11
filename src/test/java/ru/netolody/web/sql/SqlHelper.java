@@ -51,10 +51,14 @@ public class SqlHelper {
         ) {
             try (val rs = dataStmt.executeQuery(selectCode)) {
                 if (rs.next()) {
+                    System.out.println(rs.getString(1));
                     return rs.getString(1);
+                }else{
+                    return "Error";
                 }
             }
         }
-        return "FUCK!";
     }
+
+//    public static String getUserStatus
 }
