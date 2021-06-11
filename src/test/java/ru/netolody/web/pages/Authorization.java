@@ -10,7 +10,7 @@ public class Authorization {
     private SelenideElement passwordField = $("[data-test-id=\"password\"] input");
     private SelenideElement sigIn = $("[data-test-id=\"action-login\"]");
 
-    public Verification sigIn(String login, String password) {
+    public Verification sigIn(String login, String password) throws InterruptedException {
         loginField.setValue(login);
         passwordField.setValue(password);
         sigIn.click();

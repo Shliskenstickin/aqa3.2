@@ -45,20 +45,17 @@ public class SqlHelper {
 
     public static String getVerificationCode(String id) throws SQLException {
         val selectCode = "SELECT code FROM auth_codes WHERE user_id = '" + id + "';";
+
         try (
                 val conn = connect();
                 val dataStmt = conn.createStatement()
         ) {
             try (val rs = dataStmt.executeQuery(selectCode)) {
                 if (rs.next()) {
-                    System.out.println(rs.getString(1));
                     return rs.getString(1);
-                }else{
-                    return "Error";
                 }
             }
         }
+        return "Error";
     }
-
-//    public static String getUserStatus
 }
