@@ -59,4 +59,21 @@ public class SqlHelper {
         }
         return "Error";
     }
+
+    public static String getUserStatus(String id) throws SQLException, InterruptedException {
+        val selectCode = "SELECT status FROM users WHERE id = '" + id + "';";
+        Thread.sleep(500);
+
+        try (
+                val conn = connect();
+                val dataStmt = conn.createStatement()
+        ) {
+            try (val rs = dataStmt.executeQuery(selectCode)) {
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            }
+        }
+        return "Error";
+    }
 }
