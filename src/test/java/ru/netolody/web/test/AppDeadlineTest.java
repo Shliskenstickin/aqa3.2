@@ -1,7 +1,6 @@
 package ru.netolody.web.test;
 
 import lombok.SneakyThrows;
-import lombok.val;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +28,6 @@ public class AppDeadlineTest {
     void shouldBeValidAuthorization() {
         UserDto user = new UserDto().getUserFirstPassword();
         SqlHelper.createUser(user);
-        System.out.println(user.getId());
 
         new Authorization().sigIn(user.getLogin(), user.getPassword()).inputCode(user.getId());
     }

@@ -43,8 +43,9 @@ public class SqlHelper {
         }
     }
 
-    public static String getVerificationCode(String id) throws SQLException {
+    public static String getVerificationCode(String id) throws SQLException, InterruptedException {
         val selectCode = "SELECT code FROM auth_codes WHERE user_id = '" + id + "';";
+        Thread.sleep(500);
 
         try (
                 val conn = connect();
