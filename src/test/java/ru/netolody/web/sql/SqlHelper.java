@@ -1,7 +1,7 @@
 package ru.netolody.web.sql;
 
 import lombok.val;
-import ru.netolody.web.data.UserDto;
+import ru.netolody.web.data.DataGenerator;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,7 +16,7 @@ public class SqlHelper {
         );
     }
 
-    public static void createUser(UserDto user) throws SQLException {
+    public static void createUser(DataGenerator.UserDto user) {
 
         val dataSQL = "INSERT INTO users(id, login, password) VALUES (?, ?, ?);";
 
@@ -28,10 +28,12 @@ public class SqlHelper {
             dataStmt.setString(2, user.getLogin());
             dataStmt.setString(3, user.getEncryptedPassword());
             dataStmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Cant create user");
         }
     }
 
-    public static void cleanDefaultData() throws SQLException {
+    public static void cleanDefaultData() {
         val deleteCards = "DELETE FROM cards WHERE number = '5559 0000 0000 0002' OR number = '5559 0000 0000 0001';";
         val deleteUsers = "DELETE FROM users WHERE login = 'petya' OR login = 'vasya';";
         try (
@@ -40,12 +42,18 @@ public class SqlHelper {
         ) {
             dataStmt.executeUpdate(deleteCards);
             dataStmt.executeUpdate(deleteUsers);
+        } catch (SQLException e) {
+            System.out.println("Cant clean default data");
         }
     }
 
-    public static String getVerificationCode(String id) throws SQLException, InterruptedException {
+    public static String getVerificationCode(String id) {
         val selectCode = "SELECT code FROM auth_codes WHERE user_id = '" + id + "';";
-        Thread.sleep(500);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            System.out.println("error 42");
+        }
 
         try (
                 val conn = connect();
@@ -55,14 +63,23 @@ public class SqlHelper {
                 if (rs.next()) {
                     return rs.getString(1);
                 }
+            } catch (SQLException e) {
+                System.out.println("field does not exist");
             }
+        } catch (SQLException e) {
+            System.out.println("Cant find verification code");
         }
         return "Error";
     }
 
-    public static String getUserStatus(String id) throws SQLException, InterruptedException {
+    public static String getUserStatus(String id) {
         val selectCode = "SELECT status FROM users WHERE id = '" + id + "';";
-        Thread.sleep(500);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            System.out.println("error 42");
+        }
+
 
         try (
                 val conn = connect();
@@ -72,7 +89,11 @@ public class SqlHelper {
                 if (rs.next()) {
                     return rs.getString(1);
                 }
+            } catch (SQLException e) {
+                System.out.println("field does not exist");
             }
+        } catch (SQLException e) {
+            System.out.println("Cant get user status");
         }
         return "Error";
     }

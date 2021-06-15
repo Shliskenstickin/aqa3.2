@@ -12,17 +12,19 @@ public class Authorization {
     private SelenideElement sigIn = $("[data-test-id=\"action-login\"]");
     private SelenideElement errorNotification = $("[data-test-id=\"error-notification\"]");
 
-    public Verification sigIn(String login, String password) {
+    private void setUp(String login, String password){
         loginField.setValue(login);
         passwordField.setValue(password);
         sigIn.click();
+    }
+
+    public Verification sigIn(String login, String password) {
+        setUp(login, password);
         return new Verification();
     }
 
-    public void invalidSigIn(String login){
-        loginField.setValue(login);
-        passwordField.setValue(login);
-        sigIn.click();
+    public void invalidSigIn(String login) {
+        setUp(login, login);
         errorNotification.shouldBe(Condition.visible);
     }
 }

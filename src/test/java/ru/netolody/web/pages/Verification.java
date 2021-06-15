@@ -17,8 +17,7 @@ public class Verification {
     }
 
     @SneakyThrows
-    public Dashboard inputCode(String userId) {
-        String code = SqlHelper.getVerificationCode(userId);
+    public Dashboard inputCode(String code) {
         codeField.setValue(code);
         verify.click();
 
